@@ -9,9 +9,56 @@ namespace ConsoleApp1
 
         }
 
+        abstract class Person
+        {
+            protected string name;
+            public string Name { get { return name; } protected set { name = value; } }
+
+            protected string last_name;
+            public string LastName { get { return last_name; } protected set { last_name = value; } }
+
+            protected int age;
+            public int Age { get { return age; } protected set { age = value; } }
+
+            public PhoneNum PhoneNum;
+        }
+
+        class Buyer: Person
+        {
+            protected int NumCreditCard { get; set; }
+        }
+
+        class Curier: Person
+        {
+            public int NumOfOrders;
+            public double Rating { get { return Rating; } private set { if (value <= 10 && value >= 0) { Rating = value; } } }
+        }
+
+        class Address
+        {
+            private string country, city, street, home;
+            public string Country { get { return country; } set { country = value; } }
+            public string City { get { return city; } set { city = value; } }
+            public string Street { get { return street; } set { street = value; } }
+            public string Home { get { return home; } set { home = value; } }
+        }
+
+        class PhoneNum
+        {
+            protected string country;
+            public string Country { get { return country; } set { country = value; } }
+            protected string num;
+            public string Num { get { return num; } set { num = value; } }
+        }
+
+        class CompanyPhoneNum
+        {
+            private PhoneNum[] BlackList;
+        }
+
         abstract class Delivery
         {
-            public string Address;
+            public Address Address;
 
             public DateTime Date;
 
@@ -20,9 +67,7 @@ namespace ConsoleApp1
 
         class HomeDelivery : Delivery
         {
-            public string PhoneNum;
-
-            public string CourierName;
+            public Curier Curier;
         }
 
         class PickPointDelivery : Delivery
@@ -37,13 +82,17 @@ namespace ConsoleApp1
 
         class Order<TDelivery, TId> where TDelivery : Delivery
         {
-            public TDelivery Delivery;
+            private TDelivery Delivery;
 
             public string Description;
 
             public Product Product;
 
-            public TId OrderId;
+            private TId OrderId;
+
+            private Buyer Buyer;
+
+            public CompanyPhoneNum CompanyPhoneNum;
 
             public void DisplayAddress()
             {
