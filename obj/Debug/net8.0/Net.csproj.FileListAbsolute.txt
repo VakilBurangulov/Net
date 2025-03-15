@@ -12,3 +12,4 @@ C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\refint\Net.dll
 C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.pdb
 C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.genruntimeconfig.cache
 C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\ref\Net.dll
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.sourcelink.json
