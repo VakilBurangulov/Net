@@ -1,0 +1,14 @@
+C:\Users\Vakil\source\repos\Module_1\Net\bin\Debug\net8.0\Net.exe
+C:\Users\Vakil\source\repos\Module_1\Net\bin\Debug\net8.0\Net.deps.json
+C:\Users\Vakil\source\repos\Module_1\Net\bin\Debug\net8.0\Net.runtimeconfig.json
+C:\Users\Vakil\source\repos\Module_1\Net\bin\Debug\net8.0\Net.dll
+C:\Users\Vakil\source\repos\Module_1\Net\bin\Debug\net8.0\Net.pdb
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.AssemblyInfoInputs.cache
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.AssemblyInfo.cs
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.csproj.CoreCompileInputs.cache
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.dll
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\refint\Net.dll
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.pdb
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\Net.genruntimeconfig.cache
+C:\Users\Vakil\source\repos\Module_1\Net\obj\Debug\net8.0\ref\Net.dll
