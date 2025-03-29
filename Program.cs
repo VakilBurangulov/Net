@@ -1,69 +1,72 @@
-﻿using static Net.Program;
-
-namespace Net
+﻿namespace Net
 {
     public class Program
     {
-        delegate string[] SortArrayDelegate (string[] s);
-
         static void Main(string[] args)
         {
-            Exception myException = new Exception("Введены не валидные данные");
-            ArgumentException myArgumentException = new ArgumentException();
-            NullReferenceException myNullReferenceException = new NullReferenceException();
-            ArgumentNullException myArgumentNullException = new ArgumentNullException();
+            Exception myException = new Exception("Моё исключение");
+            NullReferenceException nullReferenceException = new NullReferenceException();
+            ArgumentException argumentException = new ArgumentException();
+            DivideByZeroException divideByZeroException = new DivideByZeroException();
             FileNotFoundException fileNotFoundException = new FileNotFoundException();
 
-            Exception[] exceptions = { myException, myArgumentException, myNullReferenceException, myArgumentNullException };
-
-            foreach (Exception ex in exceptions)
+            Exception[] exceptions = { myException, nullReferenceException, argumentException, divideByZeroException, fileNotFoundException};
+            foreach (Exception exception in exceptions)
             {
                 try
                 {
-                    throw ex;
+                    throw exception;
                 }
 
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Console.WriteLine(e.Message);
+                    Console.WriteLine(ex.Message);
                 }
             }
 
-            string[] last_names = { "Сидоров", "Иванов", "Архипов", "Старостина", "Бурангулов" };
+            string[] last_names = { "Сидоров", "Ельцин", "Бурангулов", "Архипов", "Иванов"};
+            SortArray sortArray = new SortArray();
+            sortArray.SortEvent += ShowArray;
 
-            SortArrayDelegate sortArrayDelegate = SortArray;
-
-            sortArrayDelegate(last_names);
-
-            foreach (string s in last_names)
+            try
             {
-                Console.WriteLine(s);
+                sortArray.SortedArray(last_names);
+            }
+
+            catch (FormatException)
+            {
+                Console.WriteLine("Неверный формат");
             }
         }
 
-        static string[] SortArray(string[] s)
+        static void ShowArray(string[] array)
         {
-            Exception myException = new Exception("Введены не валидные данные");
-            try
+            foreach (string item in array)
             {
-                Console.WriteLine("Пожалуйста введите 1 если хотите сортировку А-Я или 2 если хотите сортировку Я-А");
-                string us = Console.ReadLine();
-                if (us != "1" && us != "2")
-                    throw myException;
-                switch (us)
-                {
-                    case "1": Array.Sort(s); break;
-                    case "2": Array.Sort(s); Array.Reverse(s); break;
-                }
+                Console.WriteLine(item);
             }
+        }
+    }
 
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            
-            return s;
-            
+    public class  SortArray
+    {
+        public delegate void SortDelegate(string[] array);
+        public event SortDelegate SortEvent;
+
+        public void SortedArray(string[] array)
+        {
+            Console.WriteLine();
+            Console.WriteLine("Введите 1 для сортировки А-Я или 2 для сортировки Я-А");
+
+            int number = Convert.ToInt32(Console.ReadLine());
+
+            if (number != 1 && number != 2) throw new FormatException();
+
+            Array.Sort(array);
+
+            if (number == 2) Array.Reverse(array);
+
+            SortEvent?.Invoke(array);
         }
     }
 }
