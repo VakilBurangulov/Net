@@ -1,72 +1,75 @@
-﻿namespace Net
+﻿using System.ComponentModel;
+
+namespace Net
 {
-    public class Program
+    class Program
     {
         static void Main(string[] args)
         {
-            Exception myException = new Exception("Моё исключение");
-            NullReferenceException nullReferenceException = new NullReferenceException();
-            ArgumentException argumentException = new ArgumentException();
-            DivideByZeroException divideByZeroException = new DivideByZeroException();
-            FileNotFoundException fileNotFoundException = new FileNotFoundException();
+            Calculator calculator = new Calculator();
 
-            Exception[] exceptions = { myException, nullReferenceException, argumentException, divideByZeroException, fileNotFoundException};
-            foreach (Exception exception in exceptions)
-            {
-                try
-                {
-                    throw exception;
-                }
+            calculator.Sum();
 
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-            }
+            Console.ReadKey();
+        }
+    }
 
-            string[] last_names = { "Сидоров", "Ельцин", "Бурангулов", "Архипов", "Иванов"};
-            SortArray sortArray = new SortArray();
-            sortArray.SortEvent += ShowArray;
+    public interface ICalculator
+    {
+        public void Sum();
+    }
 
-            try
-            {
-                sortArray.SortedArray(last_names);
-            }
+    public class Calculator : ICalculator
+    {
+        Logger logger;
 
-            catch (FormatException)
-            {
-                Console.WriteLine("Неверный формат");
-            }
+        public Calculator()
+        {
+            logger = new Logger();
         }
 
-        static void ShowArray(string[] array)
+        public void Sum()
         {
-            foreach (string item in array)
+            try
             {
-                Console.WriteLine(item);
+                Console.WriteLine("Пожалуйста введите 1ое число");
+                double a = Convert.ToDouble(Console.ReadLine());
+                Console.WriteLine("Пожалуйста введите 2ое число");
+                double b = Convert.ToDouble(Console.ReadLine());
+
+                logger.Event("Вычисление");
+
+                Console.WriteLine($"Сумма равна: {a + b}");
+            }
+
+            catch 
+            {
+                logger.Error("Введено не правильное значение");
             }
         }
     }
 
-    public class  SortArray
+    public interface ILogger
     {
-        public delegate void SortDelegate(string[] array);
-        public event SortDelegate SortEvent;
+        public void Event(string message);
+        public void Error(string message);
+    }
 
-        public void SortedArray(string[] array)
+    public class Logger : ILogger
+    {
+        public void Event(string message)
         {
-            Console.WriteLine();
-            Console.WriteLine("Введите 1 для сортировки А-Я или 2 для сортировки Я-А");
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.White;
+            Thread.Sleep(1000);
+        }
 
-            int number = Convert.ToInt32(Console.ReadLine());
-
-            if (number != 1 && number != 2) throw new FormatException();
-
-            Array.Sort(array);
-
-            if (number == 2) Array.Reverse(array);
-
-            SortEvent?.Invoke(array);
+        public void Error(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(message);
+            Console.ForegroundColor = ConsoleColor.White;
         }
     }
 }
