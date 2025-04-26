@@ -1,75 +1,47 @@
-﻿using System.ComponentModel;
-
-namespace Net
+﻿class Program
 {
-    class Program
+    static void Main(string[] args)
     {
-        static void Main(string[] args)
+        var users = new User[] {
+            new User { Login = "Login1", Name = "Name1", IsPremium = true }, 
+            new User { Login = "Login2", Name = "Name2", IsPremium = false }, 
+            new User { Login = "Login3", Name = "Name3", IsPremium = false } 
+        };
+
+        foreach (var user in users)
         {
-            Calculator calculator = new Calculator();
-
-            calculator.Sum();
-
-            Console.ReadKey();
-        }
-    }
-
-    public interface ICalculator
-    {
-        public void Sum();
-    }
-
-    public class Calculator : ICalculator
-    {
-        Logger logger;
-
-        public Calculator()
-        {
-            logger = new Logger();
-        }
-
-        public void Sum()
-        {
-            try
+            if (user.IsPremium)
             {
-                Console.WriteLine("Пожалуйста введите 1ое число");
-                double a = Convert.ToDouble(Console.ReadLine());
-                Console.WriteLine("Пожалуйста введите 2ое число");
-                double b = Convert.ToDouble(Console.ReadLine());
-
-                logger.Event("Вычисление");
-
-                Console.WriteLine($"Сумма равна: {a + b}");
+                Console.WriteLine("Привет, " + user.Name);
             }
 
-            catch 
+            else
             {
-                logger.Error("Введено не правильное значение");
+                ShowAds();
+                Console.WriteLine("Привет, " + user.Name);
             }
         }
     }
 
-    public interface ILogger
+    static void ShowAds()
     {
-        public void Event(string message);
-        public void Error(string message);
+        Console.WriteLine("Посетите наш новый сайт с бесплатными играми free.games.for.a.fool.com");
+        // Остановка на 1 с
+        Thread.Sleep(1000);
+
+        Console.WriteLine("Купите подписку на МыКомбо и слушайте музыку везде и всегда.");
+        // Остановка на 2 с
+        Thread.Sleep(2000);
+
+        Console.WriteLine("Оформите премиум-подписку на наш сервис, чтобы не видеть рекламу.");
+        // Остановка на 3 с
+        Thread.Sleep(3000);
     }
 
-    public class Logger : ILogger
+    class User
     {
-        public void Event(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.White;
-            Thread.Sleep(1000);
-        }
-
-        public void Error(string message)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(message);
-            Console.ForegroundColor = ConsoleColor.White;
-        }
+        public string Login { get; set; }
+        public string Name { get; set; }
+        public bool IsPremium { get; set; }
     }
 }
