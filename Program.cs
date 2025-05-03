@@ -1,47 +1,86 @@
-﻿class Program
+﻿using System.Diagnostics;
+
+namespace Net
 {
-    static void Main(string[] args)
+    class Program
     {
-        var users = new User[] {
-            new User { Login = "Login1", Name = "Name1", IsPremium = true }, 
-            new User { Login = "Login2", Name = "Name2", IsPremium = false }, 
-            new User { Login = "Login3", Name = "Name3", IsPremium = false } 
-        };
-
-        foreach (var user in users)
+        static void Main(string[] args)
         {
-            if (user.IsPremium)
-            {
-                Console.WriteLine("Привет, " + user.Name);
-            }
-
-            else
-            {
-                ShowAds();
-                Console.WriteLine("Привет, " + user.Name);
-            }
+            var text = File.ReadAllText("D:\\Downloads\\input.txt");
+            var textForChars =  text.ToCharArray();
+            
+            var listAddToFirst =  new List<char>(textForChars);
+            var linkedListAddToFirst = new LinkedList<char>(textForChars);
+            
+            var listAddToMiddle =  new List<char>(textForChars);
+            var linkedListAddToMiddle = new LinkedList<char>(textForChars);
+            
+            var listAddToLast =  new List<char>(textForChars);
+            var linkedListAddToLast = new LinkedList<char>(textForChars);
+            
+            
+            
+            
+            // Add to first
+            var timer = Stopwatch.StartNew();
+            AddValuesToMiddleList(listAddToFirst, 'h', 0);
+            var timeList = timer.Elapsed.TotalMilliseconds;
+            
+            timer = Stopwatch.StartNew();
+            linkedListAddToFirst.AddFirst('h');
+            var timeLinkedList = timer.Elapsed.TotalMilliseconds;
+            
+            Console.WriteLine($"Время добавдение элемента в начало листа\n" +
+                              $"Цепь: {timeLinkedList} мс\n" +
+                              $"Простой лист: {timeList} мс");
+            Console.WriteLine();
+            
+            
+            
+            // Add to middle
+            var middleIndex = Convert.ToInt32(textForChars.Length / 2);
+            timer = Stopwatch.StartNew();
+            AddValuesToMiddleList(listAddToMiddle, 'h', middleIndex);
+            timeList = timer.Elapsed.TotalMilliseconds;
+            
+            timer = Stopwatch.StartNew();
+            var middleValue = linkedListAddToMiddle.Find(textForChars[middleIndex]);
+            if (middleValue != null)
+                linkedListAddToMiddle.AddAfter(middleValue, 'h');
+            timeLinkedList = timer.Elapsed.TotalMilliseconds;
+            
+            Console.WriteLine($"Время добавдение элемента в середину листа\n" +
+                              $"Цепь: {timeLinkedList} мс\n" +
+                              $"Простой лист: {timeList} мс");
+            Console.WriteLine();
+            
+            
+            
+            // Add to last
+            timer = Stopwatch.StartNew();
+            listAddToLast.Add('h');
+            timeList = timer.Elapsed.TotalMilliseconds;
+            
+            timer = Stopwatch.StartNew();
+            linkedListAddToLast.AddLast('h');
+            timeLinkedList = timer.Elapsed.TotalMilliseconds;
+            
+            Console.WriteLine($"Время добавдение элемента в конец листа\n" +
+                              $"Цепь: {timeLinkedList} мс\n" +
+                              $"Простой лист: {timeList} мс");
+            Console.WriteLine();
         }
-    }
 
-    static void ShowAds()
-    {
-        Console.WriteLine("Посетите наш новый сайт с бесплатными играми free.games.for.a.fool.com");
-        // Остановка на 1 с
-        Thread.Sleep(1000);
-
-        Console.WriteLine("Купите подписку на МыКомбо и слушайте музыку везде и всегда.");
-        // Остановка на 2 с
-        Thread.Sleep(2000);
-
-        Console.WriteLine("Оформите премиум-подписку на наш сервис, чтобы не видеть рекламу.");
-        // Остановка на 3 с
-        Thread.Sleep(3000);
-    }
-
-    class User
-    {
-        public string Login { get; set; }
-        public string Name { get; set; }
-        public bool IsPremium { get; set; }
+        public static void AddValuesToMiddleList(List<char> list, char addingValue, int index)
+        {
+            for (int i = list.Count; i > index; i--)
+            {
+                if (i == list.Count)
+                    list.Add('a');
+                list[i] = list[i-1];
+            }
+            
+            list[index] = addingValue;
+        }
     }
 }
