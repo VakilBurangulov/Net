@@ -1,51 +1,72 @@
-﻿namespace Net
-{
+﻿namespace Net;
     class Program
     {
         static void Main(string[] args)
         {
-            var text = File.ReadAllText("D:\\Downloads\\input.txt");
-            var noPunctuationText = new string(text.Where(c => !char.IsPunctuation(c)).ToArray());
-
-            var splitChars = new[] { " ", "\n", "\r" };
-
-            var words = noPunctuationText.Split(splitChars, StringSplitOptions.RemoveEmptyEntries);
+            //  создаём пустой список с типом данных Contact
+            var phoneBook = new List<Contact>();
+     
+            // добавляем контакты
+            phoneBook.Add(new Contact("Игорь", "Николаев", 79990000001, "igor@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Довлатов",79990000010, "serge@example.com"));
+            phoneBook.Add(new Contact("Анатолий", "Карпов", 79990000011, "anatoly@example.com"));
+            phoneBook.Add(new Contact("Валерий", "Леонтьев",79990000012, "valera@example.com"));
+            phoneBook.Add(new Contact("Сергей", "Брин",  799900000013, "serg@example.com"));
+            phoneBook.Add(new Contact("Иннокентий", "Смоктуновский",799900000013, "innokentii@example.com"));
             
-            var dict = new Dictionary<string, int>();
-
-            foreach (var word in words)
+            
+            
+            
+            var sortedPhoneBook = phoneBook.OrderBy(x => x.Name).ThenBy(x => x.LastName).ToList();
+            
+            
+            
+            
+            
+            
+            while (true)
             {
-                if (dict.ContainsKey(word.ToUpper()))
-                    dict[word.ToUpper()]++;
-                
+                // Читаем введенный с консоли символ
+                var input = Console.ReadKey().KeyChar;
+                Console.Clear();
+  
+                // проверяем, число ли это
+                var parsed = Int32.TryParse(input.ToString(), out int pageNumber);
+  
+                // если не соответствует критериям - показываем ошибку
+                if (!parsed || pageNumber < 1 || pageNumber > 3)
+                {
+                    Console.WriteLine();
+                    Console.WriteLine("Страницы не существует");
+                }
+                // если соответствует - запускаем вывод
                 else
-                    dict.Add(word.ToUpper(), 1);
+                {
+                    // пропускаем нужное количество элементов и берем 2 для показа на странице
+                    var pageContent = sortedPhoneBook.Skip((pageNumber - 1) * 2).Take(2);
+                    Console.WriteLine();
+      
+                    // выводим результат
+                    foreach (var entry in pageContent)
+                        Console.WriteLine(entry.Name + " " + entry.LastName +  ": " + entry.PhoneNumber);
+ 
+                    Console.WriteLine();
+                }
             }
-
-            var top10Words = GetTop10Words(dict);
-            var count = 1;
-
-            foreach (var i in top10Words)
-            {
-                Console.WriteLine($"{count}ое место занимает слово '{i.ToLower()}' с {dict[i]} повторениями");
-                count++;
-            }
-        }
-
-        static string[] GetTop10Words(Dictionary<string, int> dict)
-        {
-            var top10Words = new string[10];
-
-            var dictClone = new Dictionary<string, int>(dict);
-
-            for (int i = 0; i < top10Words.Length; i++)
-            {
-                var max = dictClone.MaxBy(kvp => kvp.Value).Key;
-                top10Words[i] = max;
-                dictClone.Remove(max);
-            }
-            
-            return top10Words;
         }
     }
-}
+    public class Contact // модель класса
+    {
+        public Contact(string name, string lastName, long phoneNumber, String email) // метод-конструктор
+        {
+            Name = name;
+            LastName = lastName;
+            PhoneNumber = phoneNumber;
+            Email = email;
+        }
+  
+        public String Name {get;}
+        public String LastName {get;}
+        public long PhoneNumber {get;}
+        public String Email {get;}
+    }
